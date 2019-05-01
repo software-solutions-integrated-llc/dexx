@@ -1,0 +1,39 @@
+{
+  "name": "@ssi/dexx",
+  "version": "1.0.0",
+  "description": "Dexx is an offline browser storage solution that uses indexedDB",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "pack": "./pack.sh",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "test": "./node_modules/.bin/jest --config jest.config.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fkjctm/dexx.git"
+  },
+  "author": "ssi@agvance.net",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fkjctm/dexx/issues"
+  },
+  "homepage": "https://github.com/fkjctm/dexx#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.13.1",
+    "fake-indexeddb": "^2.1.0",
+    "jest": "^24.7.1",
+    "jest-each": "^24.7.1",
+    "prettier": "^1.16.4",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.15.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.4.2"
+  },
+  "dependencies": {
+    "@types/uuid": "^3.4.4",
+    "uuid": "^3.3.2"
+  }
+}
