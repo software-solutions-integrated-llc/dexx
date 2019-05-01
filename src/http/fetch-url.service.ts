@@ -11,7 +11,7 @@ export class FetchUrlService {
     if (!fetchFunc && (!window || !window.fetch) ) {
       throw new Error(FetchUrlService.FetchFunctionRequired);
     }
-    this.fetchFunction = fetchFunc || window.fetch;
+    this.fetchFunction = fetchFunc || window.fetch.bind(window);
   }
 
   public async fetch(url: string, headers?: DexxHttpHeaders): Promise<DexxHttpResponse> {
