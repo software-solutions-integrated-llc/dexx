@@ -1,5 +1,5 @@
 {
-  "name": "@ssi/dexx",
+  "name": "@ssiagvance/dexx",
   "version": "1.0.0",
   "description": "Dexx is an offline browser storage solution that uses indexedDB",
   "main": "index.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fkjctm/dexx.git"
+    "url": "git+https://github.com/software-solutions-integrated-llc/dexx.git"
   },
   "author": "ssi@agvance.net",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fkjctm/dexx/issues"
+    "url": "https://github.com/software-solutions-integrated-llc/dexx/issues"
   },
-  "homepage": "https://github.com/fkjctm/dexx#readme",
+  "homepage": "https://github.com/software-solutions-integrated-llc/dexx#readme",
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "@types/node": "^11.13.1",
