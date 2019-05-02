@@ -1,5 +1,6 @@
 import { CallInfo, CallManager, DexxTimestampService } from '../../src';
 import { InMemoryRepository } from '../../src/dependencies/in-memory-repository';
+import { dexxConfig } from '../../src/dexx-config';
 
 describe('CallManager', () => {
   let utcTimestampFn: jest.Mock;
@@ -54,7 +55,7 @@ describe('CallManager', () => {
 
     test('expect the in-memory repo to be called with given process ID', () => {
       const processId = 'process-id';
-      const expectedCallInfo = { ...CallManager.DefaultCallInfo, processId };
+      const expectedCallInfo = { ...dexxConfig.CallManagerDefaultInfo, processId };
       service().registerProcess(processId);
 
       expect(addDataFn).toHaveBeenCalledWith(processId, expectedCallInfo);
@@ -70,7 +71,7 @@ describe('CallManager', () => {
     });
 
     test('given valid data with no error expect repo updated correctly', () => {
-      const validUntil = CallManager.Timeout;
+      const validUntil = dexxConfig.CallManagerTimeout;
       const processId = 'process-id';
       const data = { prop1: 'does-not-matter' };
       service().endProcess(processId, data, false);
@@ -82,7 +83,7 @@ describe('CallManager', () => {
     });
 
     test('given an error expect repo updated correctly', () => {
-      const validUntil = CallManager.Timeout;
+      const validUntil = dexxConfig.CallManagerTimeout;
       const processId = 'process-id';
       service().endProcess(processId, null, true);
 
@@ -104,7 +105,7 @@ describe('CallManager', () => {
       service().followProcess('bad-process-id')
         .then(() => fail())
         .catch(e => {
-          expect(e.message).toBe(CallManager.NoProcessError);
+          expect(e.message).toBe(dexxConfig.ErrorMessages.CallManagerNoProcess);
           done();
         });
     });
