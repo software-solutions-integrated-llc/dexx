@@ -1,19 +1,19 @@
-import { DefaultTimestampService, DexxTimestampService } from '..';
+import { DefaultTimestampService } from '../dependencies/default-timestamp.service';
 import { InMemoryRepository } from '../dependencies/in-memory-repository';
+import { dexxConfig, DexxConfig } from '../dexx-config';
+import { DexxTimestampService } from '../dexx-types';
 
 export class CallManager {
-  public static readonly DefaultCallInfo: CallInfo = {
-    processId: '', complete: false, errorOccurred: false, data: null, validUntil: 0
-  };
-  public static readonly NoProcessError = 'No process was found with the given ID';
-  public static readonly Timeout = 1000;
-  public static readonly processPollingTime = 50;
   private timestampService: DexxTimestampService;
   private repository: InMemoryRepository<CallInfo>;
+  private config: DexxConfig;
 
-  constructor(timestampService?: DexxTimestampService, repository?: InMemoryRepository<CallInfo>) {
+  constructor(timestampService?: DexxTimestampService,
+              repository?: InMemoryRepository<CallInfo>,
+              config?: DexxConfig) {
     this.timestampService = timestampService || new DefaultTimestampService();
     this.repository = repository || new InMemoryRepository<CallInfo>();
+    this.config = config || dexxConfig;
   }
 
   public hasProcess(processId: string): boolean {
@@ -22,13 +22,13 @@ export class CallManager {
 
   public registerProcess(processId: string): void {
     this.repository.add(processId, {
-      ...CallManager.DefaultCallInfo, processId
+      ...this.config.CallManagerDefaultInfo, processId
     });
   }
 
   public followProcess(processId: string): Promise<any> {
     if (!this.repository.hasKey(processId)) {
-      return Promise.reject(new Error(CallManager.NoProcessError));
+      return Promise.reject(new Error(this.config.ErrorMessages.CallManagerNoProcess));
     }
 
     return new Promise<any>((resolve, reject) => {
@@ -37,12 +37,12 @@ export class CallManager {
         if (!callInfo.complete) { return; }
         callInfo.errorOccurred ? reject() : resolve(callInfo.data);
         clearInterval(interval);
-      }, CallManager.processPollingTime);
+      }, this.config.CallManagerPollingTime);
     });
   }
 
   public endProcess(processId: string, data: any, errorOccurred = false): void {
-    const validUntil = this.timestampService.getUtcTimestamp() + CallManager.Timeout;
+    const validUntil = this.timestampService.getUtcTimestamp() + this.config.CallManagerTimeout;
     this.repository.add(processId, {
        processId, data, validUntil, complete: true, errorOccurred
     });

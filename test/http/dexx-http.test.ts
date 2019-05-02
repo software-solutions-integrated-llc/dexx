@@ -1,6 +1,7 @@
 import { CallManager, DexxAttributeMap, DexxHttp, DexxStorage } from '../../src';
 import { DefaultHashProvider } from '../../src/dependencies/default-hash-provider';
 import { FetchUrlService } from '../../src/http/fetch-url.service';
+import { dexxConfig } from '../../src/dexx-config';
 
 describe('DexxHttp', () => {
   const url = 'https://api.example.com/widgets/22';
@@ -36,7 +37,7 @@ describe('DexxHttp', () => {
           fail(); done();
         })
         .catch(e => {
-          expect(e.message).toBe(DexxHttp.EmptyUrlError);
+          expect(e.message).toBe(dexxConfig.ErrorMessages.HttpClientEmptyUrl);
           done();
         });
     });
@@ -47,7 +48,7 @@ describe('DexxHttp', () => {
           fail(); done();
         })
         .catch(e => {
-          expect(e.message).toBe(DexxHttp.EmptyExpirationError);
+          expect(e.message).toBe(dexxConfig.ErrorMessages.HttpClientEmptyExpiration);
           done();
         });
     });
@@ -58,7 +59,7 @@ describe('DexxHttp', () => {
     const hash = 'valid-hash';
     const storedObj = { key: 'value' };
     const props: DexxAttributeMap = {};
-    props[`${DexxHttp.CacheKey}`] = [hash];
+    props[`${dexxConfig.HttpClientCacheKey}`] = [hash];
 
     describe('if the data has been cached by the storage service', () => {
       let result: any = null;
@@ -168,7 +169,7 @@ describe('DexxHttp', () => {
           });
 
           test('expect the service to throw an error', () => {
-            expect(result.message).toBe(DexxHttp.FetchError);
+            expect(result.message).toBe(dexxConfig.ErrorMessages.HttpClientFetchError);
           });
 
           test('expect `endProcess` function called', () => {

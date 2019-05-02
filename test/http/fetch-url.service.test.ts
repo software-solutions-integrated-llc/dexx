@@ -1,4 +1,5 @@
 import { FetchUrlService } from '../../src/http/fetch-url.service';
+import { dexxConfig } from '../../src/dexx-config';
 
 describe('FetchUrlService', () => {
   let fetchFn: jest.Mock;
@@ -8,7 +9,7 @@ describe('FetchUrlService', () => {
   test('if no fetch function is supplied, expect error', () => {
     window.fetch = false as any;
 
-    expect(() => { new FetchUrlService(); }).toThrowError(FetchUrlService.FetchFunctionRequired);
+    expect(() => { new FetchUrlService(); }).toThrowError(dexxConfig.ErrorMessages.FetchFunctionRequired);
   });
 
   describe('given an unexpected error from fetch function', () => {
@@ -27,7 +28,7 @@ describe('FetchUrlService', () => {
     });
 
     test('expect error rethrown with message', async () => {
-      expect(result.message).toBe(FetchUrlService.CallError);
+      expect(result.message).toBe(dexxConfig.ErrorMessages.FetchUrlUnknownError);
     });
 
     test('expect fetch function called with proper parameters', () => {

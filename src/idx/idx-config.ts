@@ -19,6 +19,8 @@ export interface IdxErrorMessages {
   RemoveAttributeError: string;
   RemoveDataError: string;
   DataItemNotFound: string;
+  SaveDataItemError: string;
+  SaveAttributeError: string;
 }
 
 export const idxConfig: IdxConfig = {
@@ -37,6 +39,8 @@ export const idxConfig: IdxConfig = {
     NoDataItemsFound:'No items matching the given attributes could be found',
     RemoveAttributeError: 'An error occurred attempting to remove the given data attributes',
     RemoveDataError: 'An error occurred trying to remove data matching the given attributes',
-    DataItemNotFound: 'No data item with the given ID could be found.'
+    DataItemNotFound: 'No data item with the given ID could be found.',
+    SaveDataItemError: 'an error occurred trying to write data to indexeddb',
+    SaveAttributeError: 'an error occurred trying to write attribute data to indexeddb'
   }
 };

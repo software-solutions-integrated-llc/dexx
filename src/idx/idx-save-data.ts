@@ -7,8 +7,6 @@ import { DefaultExpirationParser } from '../dependencies/default-expiration.pars
 import { DexxAttributeMap, DexxStringExpirationParser } from '../dexx-types';
 
 export class IdxSaveData {
-  public static readonly IdxWriteError = 'an error occurred trying to write data to indexeddb';
-  public static readonly IdxAttributeError = 'an error occurred trying to write attribute data to indexeddb';
   private openDb: OpenDbService;
   private expirationParser: DexxStringExpirationParser;
   private config: IdxConfig;
@@ -39,7 +37,7 @@ export class IdxSaveData {
         const request = itemStore.add(item);
 
         request.onerror = () => {
-          reject(IdxSaveData.IdxWriteError);
+          reject(this.config.ErrorMessages.SaveDataItemError);
         };
 
         request.onsuccess = (event) => {
@@ -60,7 +58,7 @@ export class IdxSaveData {
         const request = attrStore.add(attributeItem);
 
         request.onerror = () => {
-          reject(IdxSaveData.IdxAttributeError);
+          reject(this.config.ErrorMessages.SaveAttributeError);
         };
 
         request.onsuccess = () => {

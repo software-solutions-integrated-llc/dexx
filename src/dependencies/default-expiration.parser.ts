@@ -1,12 +1,15 @@
 import { DexxStringExpirationParser, DexxTimestampService } from '../dexx-types';
 import { DefaultTimestampService } from './default-timestamp.service';
 
-export class DefaultExpirationParser implements DexxStringExpirationParser {
-  public static readonly InvalidInput = 'invalid expiration submitted';
-  private timestampService: DexxTimestampService;
+import { dexxConfig, DexxConfig } from '../dexx-config';
 
-  constructor(timestampService?: DexxTimestampService) {
+export class DefaultExpirationParser implements DexxStringExpirationParser {
+  private timestampService: DexxTimestampService;
+  private config: DexxConfig;
+
+  constructor(timestampService?: DexxTimestampService, config?: DexxConfig) {
     this.timestampService = timestampService || new DefaultTimestampService();
+    this.config = config || dexxConfig;
   }
 
   public getExpirationTimestamp(expiration: string): number {
@@ -15,7 +18,7 @@ export class DefaultExpirationParser implements DexxStringExpirationParser {
 
     const regex = /^(\d+)([smhdwny])$/;
     if (!regex.test(expiration)) {
-      throw new Error(DefaultExpirationParser.InvalidInput);
+      throw new Error(this.config.ErrorMessages.InvalidExpirationInput);
     }
 
     const matches = regex.exec(expiration) || [];

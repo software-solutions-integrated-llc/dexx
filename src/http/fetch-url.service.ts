@@ -1,21 +1,21 @@
+import { dexxConfig, DexxConfig } from '../dexx-config';
 import { DexxHttpHeaders, DexxHttpResponse } from './dexx-http-types';
 
 export type FetchFunction = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 
 export class FetchUrlService {
-  public static readonly FetchFunctionRequired = 'No fetch function provided or found';
-  public static readonly CallError = 'An unexpected error occurred making remote call';
   private readonly fetchFunction: FetchFunction;
+  private readonly config: DexxConfig;
 
-  constructor(fetchFunc?: FetchFunction) {
+  constructor(fetchFunc?: FetchFunction, config?: DexxConfig) {
+    this.config = config || dexxConfig;
     if (!fetchFunc && (!window || !window.fetch) ) {
-      throw new Error(FetchUrlService.FetchFunctionRequired);
+      throw new Error(this.config.ErrorMessages.FetchFunctionRequired);
     }
     this.fetchFunction = fetchFunc || window.fetch.bind(window);
   }
 
   public async fetch(url: string, headers?: DexxHttpHeaders): Promise<DexxHttpResponse> {
-
     let response: Response;
     try {
       response = await this.fetchFunction(url, {
@@ -24,14 +24,10 @@ export class FetchUrlService {
       });
     }
     catch(e) {
-      throw new Error(FetchUrlService.CallError);
+      throw new Error(this.config.ErrorMessages.FetchUrlUnknownError);
     }
 
-    if (!response.ok) {
-      return this.getErrorResponse(response);
-    }
-
-    return this.getResponseInfo(response);
+    return response.ok ? this.getResponseInfo(response) : this.getErrorResponse(response);
   }
 
   private getErrorResponse(response: Response): Promise<DexxHttpResponse> {
