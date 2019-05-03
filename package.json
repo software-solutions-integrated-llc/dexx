@@ -4,6 +4,7 @@
   "description": "Dexx is an offline browser storage solution that uses indexedDB",
   "main": "index.js",
   "scripts": {
+    "postinstall": "snyk protect",
     "build": "./node_modules/.bin/tsc",
     "pack": "./pack.sh",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
@@ -20,6 +21,10 @@
     "url": "https://github.com/software-solutions-integrated-llc/dexx/issues"
   },
   "homepage": "https://github.com/software-solutions-integrated-llc/dexx#readme",
+  "dependencies": {
+    "@types/uuid": "^3.4.4",
+    "uuid": "^3.3.2"
+  },
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "@types/node": "^11.13.1",
@@ -31,9 +36,5 @@
     "tslint": "^5.15.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.4.2"
-  },
-  "dependencies": {
-    "@types/uuid": "^3.4.4",
-    "uuid": "^3.3.2"
   }
 }
