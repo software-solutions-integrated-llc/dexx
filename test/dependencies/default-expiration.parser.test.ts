@@ -1,5 +1,6 @@
 import { DefaultExpirationParser, DexxTimestampService } from '../../src';
 import each from 'jest-each';
+import { dexxConfig } from '../../src/dexx-config';
 
 describe('DefaultExpirationParser', () => {
 
@@ -20,7 +21,7 @@ describe('DefaultExpirationParser', () => {
     const inputs = [ [''], [' '], ['5x'], ['Xs'] ];
 
     each(inputs).test('for input `%s`, expect error thrown', (input: string) => {
-      expect(() => service().getExpirationTimestamp(input)).toThrowError(DefaultExpirationParser.InvalidInput)
+      expect(() => service().getExpirationTimestamp(input)).toThrowError(dexxConfig.ErrorMessages.InvalidExpirationInput)
     });
   });
 
