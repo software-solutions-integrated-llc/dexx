@@ -24,3 +24,5 @@ export interface DexxAttributeComparer {
                       storedAttributes: DexxAttributeMap,
                       exact?: boolean) => boolean
 }
+
+export type ContentDisposition = 'json' | 'text' | 'blob';

@@ -1,4 +1,4 @@
-import uuid5 = require('uuid/v5');
+import { v5 as uuid5 } from 'uuid';
 import { dexxConfig, DexxConfig } from '../dexx-config';
 
 export type HashFunction = (input: string, salt: string) => string;
