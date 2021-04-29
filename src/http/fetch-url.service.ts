@@ -1,4 +1,5 @@
 import { dexxConfig, DexxConfig } from '../dexx-config';
+import { ContentDisposition } from '../dexx-types';
 import { DexxHttpHeaders, DexxHttpResponse } from './dexx-http-types';
 
 export type FetchFunction = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
@@ -15,7 +16,7 @@ export class FetchUrlService {
     this.fetchFunction = fetchFunc || window.fetch.bind(window);
   }
 
-  public async fetch(url: string, headers?: DexxHttpHeaders): Promise<DexxHttpResponse> {
+  public async fetch(url: string, headers?: DexxHttpHeaders, disposition: ContentDisposition = 'json'): Promise<DexxHttpResponse> {
     let response: Response;
     try {
       response = await this.fetchFunction(url, {
@@ -27,7 +28,7 @@ export class FetchUrlService {
       throw new Error(this.config.ErrorMessages.FetchUrlUnknownError);
     }
 
-    return response.ok ? this.getResponseInfo(response) : this.getErrorResponse(response);
+    return response.ok ? this.getResponseInfo(response, disposition) : this.getErrorResponse(response);
   }
 
   private getErrorResponse(response: Response): Promise<DexxHttpResponse> {
@@ -39,8 +40,8 @@ export class FetchUrlService {
     });
   }
 
-  private getResponseInfo(response: Response): Promise<DexxHttpResponse> {
-    return response.json()
+  private getResponseInfo(response: Response, disposition: ContentDisposition): Promise<DexxHttpResponse> {
+    return response[disposition]()
       .then(data => {
         return {
           url: response.url,

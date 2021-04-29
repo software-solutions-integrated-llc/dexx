@@ -4,7 +4,7 @@ import { FetchUrlService } from './fetch-url.service';
 
 import { DefaultHashProvider } from '../dependencies/default-hash-provider';
 import { dexxConfig, DexxConfig } from '../dexx-config';
-import { DexxAttributeMap, DexxStorage } from '../dexx-types';
+import { ContentDisposition, DexxAttributeMap, DexxStorage } from '../dexx-types';
 import { IdxStorage } from '../idx/idx-storage';
 
 export class DexxHttp {
@@ -29,7 +29,8 @@ export class DexxHttp {
   public async get(url: string,
                    expiration: string,
                    attributes?: DexxAttributeMap,
-                   headers?: DexxHttpHeaders): Promise<DexxHttpResponse> {
+                   headers?: DexxHttpHeaders,
+                   disposition: ContentDisposition = 'json'): Promise<DexxHttpResponse> {
 
     url = url.trim();
     if (url.length < 1) {
@@ -62,7 +63,7 @@ export class DexxHttp {
     this.callManager.registerProcess(hash);
 
     try {
-      const response = await this.fetchUrl.fetch(url, headers);
+      const response = await this.fetchUrl.fetch(url, headers, disposition);
       this.callManager.endProcess(hash, response, false);
       await this.dexxClient.save(response, storageAttributes, expiration);
       return response;
