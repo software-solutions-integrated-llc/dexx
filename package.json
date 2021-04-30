@@ -1,6 +1,6 @@
 {
   "name": "@ssiagvance/dexx",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "Dexx is an offline browser storage solution that uses indexedDB",
   "main": "index.js",
   "scripts": {
