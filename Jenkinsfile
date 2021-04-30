@@ -168,7 +168,7 @@ pipeline {
       steps {
         script {
           def r = 'https://registry.npmjs.org'
-          def cmd = "npm publish lib.tgz --registry $r"
+          def cmd = "npm publish lib.tgz --access public"
 
           if (!env.DEPLOYABLE) cmd += ' --dry-run'
 
